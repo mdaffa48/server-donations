@@ -1,0 +1,7 @@
+name: ServerDonations
+version: 1.0
+main: com.muhammaddaffa.serverdonations.ServerDonation
+author: mdaffa48
+
+commands:
+  invoice:
