@@ -2,8 +2,6 @@ package com.muhammaddaffa.serverdonations.configs;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
-import javax.jnlp.FileContents;
-
 public class ConfigValue {
 
     public static String PRODUCTION_CLIENT_KEY;
