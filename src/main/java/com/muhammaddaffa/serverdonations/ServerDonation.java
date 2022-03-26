@@ -1,8 +1,11 @@
 package com.muhammaddaffa.serverdonations;
 
 import com.muhammaddaffa.serverdonations.commands.InvoiceCommand;
+import com.muhammaddaffa.serverdonations.configs.ConfigManager;
 import com.muhammaddaffa.serverdonations.configs.ConfigValue;
 import com.muhammaddaffa.serverdonations.midtrans.SnapAPIRedirect;
+import me.aglerr.mclibs.MCLibs;
+import me.aglerr.mclibs.libs.Common;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ServerDonation extends JavaPlugin {
@@ -11,9 +14,11 @@ public class ServerDonation extends JavaPlugin {
 
     @Override
     public void onEnable(){
-        this.saveDefaultConfig();
-        this.getConfig().options().copyDefaults(true);
-
+        // Initialize MCLibs
+        MCLibs.init(this);
+        Common.setPrefix("[ServerDonation]");
+        // Initialize config and config value
+        ConfigManager.init();
         ConfigValue.init(this.getConfig());
 
         if(ConfigValue.IS_PRODUCTION_MODE){
