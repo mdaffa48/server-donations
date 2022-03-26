@@ -11,6 +11,7 @@ import com.muhammaddaffa.serverdonations.midtrans.helpers.JsonObjectWrapper;
 import com.muhammaddaffa.serverdonations.midtrans.helpers.RequestBodyBuilder;
 import com.muhammaddaffa.serverdonations.products.Product;
 import com.muhammaddaffa.serverdonations.utils.Utils;
+import me.aglerr.mclibs.libs.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import spark.Spark;
@@ -57,13 +58,14 @@ public class SnapAPIRedirect {
             String fraudStatus = wrapper.getString("fraud_status");
             String statusCode = wrapper.getString("status_code");
 
-            Bukkit.broadcastMessage(" ");
-            Bukkit.broadcastMessage("Midtrans Notification:");
-            Bukkit.broadcastMessage("Order ID: " + orderId);
-            Bukkit.broadcastMessage("Transaction Status: " + transactionStatus);
-            Bukkit.broadcastMessage("Fraud Status: " + fraudStatus);
-            Bukkit.broadcastMessage("Status Code: " + statusCode);
-            Bukkit.broadcastMessage(" ");
+            Debug.send(
+                    "",
+                    "&e-- Midtrans Notification --",
+                    "&eOrder ID: " + orderId,
+                    "&eTransaction Details: " + transactionStatus,
+                    "&eFraud Status: " + fraudStatus,
+                    "&eStatus Code: " + statusCode
+            );
 
             if (transactionStatus.equals("capture") &&
                     fraudStatus.equals("accept") &&
@@ -80,12 +82,6 @@ public class SnapAPIRedirect {
 
     public void stopReceivingNotifications() {
         Spark.stop();
-    }
-
-    private String generateOrderId(Player player) {
-        String orderId = player.getName() + "_" + UUID.randomUUID();
-        Bukkit.broadcastMessage("Order ID: " + orderId);
-        return orderId;
     }
 
 }
