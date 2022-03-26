@@ -1,20 +1,42 @@
 package com.muhammaddaffa.serverdonations;
 
 import com.muhammaddaffa.serverdonations.commands.InvoiceCommand;
+import com.muhammaddaffa.serverdonations.configs.ConfigValue;
 import com.muhammaddaffa.serverdonations.midtrans.SnapAPIRedirect;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ServerDonation extends JavaPlugin {
 
-    private final String SERVER_KEY = "SB-Mid-server-aIO51MbOFbDFABlBZjbO39nn";
-    private final String CLIENT_KEY = "SB-Mid-client-_zlNhT1-oBF2TxAC";
-
     private SnapAPIRedirect client;
 
     @Override
     public void onEnable(){
-        this.client = new SnapAPIRedirect(SERVER_KEY, CLIENT_KEY, false);
+        this.saveDefaultConfig();
+        this.getConfig().options().copyDefaults(true);
+
+        ConfigValue.init(this.getConfig());
+
+        if(ConfigValue.IS_PRODUCTION_MODE){
+            this.client = new SnapAPIRedirect(
+                    ConfigValue.PRODUCTION_SERVER_KEY,
+                    ConfigValue.PRODUCTION_CLIENT_KEY,
+                    true
+            );
+        } else {
+            this.client = new SnapAPIRedirect(
+                    ConfigValue.SANDBOX_SERVER_KEY,
+                    ConfigValue.SANDBOX_CLIENT_KEY,
+                    false
+            );
+        }
+        this.client.startReceivingNotifications();
+
         this.getCommand("invoice").setExecutor(new InvoiceCommand(this.client));
+    }
+
+    @Override
+    public void onDisable(){
+        this.client.stopReceivingNotifications();
     }
 
     public SnapAPIRedirect getClient() {
