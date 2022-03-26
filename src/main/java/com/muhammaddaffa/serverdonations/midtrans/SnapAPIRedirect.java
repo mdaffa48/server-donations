@@ -1,14 +1,18 @@
 package com.muhammaddaffa.serverdonations.midtrans;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.midtrans.Config;
 import com.midtrans.ConfigFactory;
 import com.midtrans.httpclient.error.MidtransError;
 import com.midtrans.service.MidtransSnapApi;
-import com.muhammaddaffa.serverdonations.midtrans.body.RequestBodyBuilder;
+import com.muhammaddaffa.serverdonations.midtrans.helpers.JsonObjectWrapper;
+import com.muhammaddaffa.serverdonations.midtrans.helpers.RequestBodyBuilder;
+import com.muhammaddaffa.serverdonations.products.Product;
+import com.muhammaddaffa.serverdonations.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.json.JSONObject;
 import spark.Spark;
 
 import java.util.*;
@@ -18,39 +22,40 @@ public class SnapAPIRedirect {
     private final Gson gson = new Gson();
     private final MidtransSnapApi snapAPI;
 
-    public SnapAPIRedirect(String serverKey, String clientKey, boolean production){
-        this.snapAPI = new ConfigFactory(
-                new Config(serverKey, clientKey, production)
-        ).getSnapApi();
+    public SnapAPIRedirect(String serverKey, String clientKey, boolean production) {
+        this.snapAPI = new ConfigFactory(new Config(serverKey, clientKey, production))
+                .getSnapApi();
     }
 
-    public String generateInvoiceURL(Player player, int amount) throws MidtransError{
-        return this.snapAPI.createTransactionRedirectUrl(
-                this.requestBody(player, amount)
-        );
+    public String generateInvoiceURL(Player player, Product product) throws MidtransError {
+        return this.snapAPI
+                .createTransactionRedirectUrl(this.requestBody(player, product));
     }
 
-    private Map<String, Object> requestBody(Player player, int amount){
+    private Map<String, Object> requestBody(Player player, Product product) {
         return new RequestBodyBuilder()
-                .setTransactionDetails(this.generateOrderId(player), amount)
+                .setTransactionDetails(Utils.generateOrderId(player), product)
                 .setCustomerDetails(player.getName())
-                .addItemDetail(amount, 1, "1000 Coins")
+                .addItemDetail(product)
                 .build();
     }
 
-    public void startReceivingNotifications(){
+    public void startReceivingNotifications() {
         Spark.port(80);
         Spark.init();
 
         Spark.post("/payment/notification", ((request, response) -> {
 
-            JSONObject json = this.gson.fromJson(request.body(), JSONObject.class);
+            JsonObjectWrapper wrapper = new JsonObjectWrapper(request.body());
 
-            String orderId = json.getString("order_id");
+            // Successfully getting notification data
+            response.status(200);
 
-            String transactionStatus = json.getString("transaction_status");
-            String fraudStatus = json.getString("fraud_status");
-            String statusCode = json.getString("status_code");
+            String orderId = wrapper.getString("order_id");
+            Bukkit.broadcastMessage("Order ID: " + orderId);
+            String transactionStatus = wrapper.getString("transaction_status");
+            String fraudStatus = wrapper.getString("fraud_status");
+            String statusCode = wrapper.getString("status_code");
 
             Bukkit.broadcastMessage(" ");
             Bukkit.broadcastMessage("Midtrans Notification:");
@@ -60,9 +65,9 @@ public class SnapAPIRedirect {
             Bukkit.broadcastMessage("Status Code: " + statusCode);
             Bukkit.broadcastMessage(" ");
 
-            if(transactionStatus.equals("capture") &&
+            if (transactionStatus.equals("capture") &&
                     fraudStatus.equals("accept") &&
-                    statusCode.equals("200")){
+                    statusCode.equals("200")) {
 
                 Bukkit.broadcastMessage(orderId + " telah dibayar!");
                 Bukkit.getConsoleSender().sendMessage("broadcast &a&laglerr just donated to the server!");
@@ -73,11 +78,11 @@ public class SnapAPIRedirect {
         }));
     }
 
-    public void stopReceivingNotifications(){
+    public void stopReceivingNotifications() {
         Spark.stop();
     }
 
-    private String generateOrderId(Player player){
+    private String generateOrderId(Player player) {
         String orderId = player.getName() + "_" + UUID.randomUUID();
         Bukkit.broadcastMessage("Order ID: " + orderId);
         return orderId;
