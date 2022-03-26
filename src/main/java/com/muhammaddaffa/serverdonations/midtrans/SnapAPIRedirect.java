@@ -1,7 +1,6 @@
 package com.muhammaddaffa.serverdonations.midtrans;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.midtrans.Config;
 import com.midtrans.ConfigFactory;
 import com.midtrans.httpclient.error.MidtransError;
@@ -9,11 +8,9 @@ import com.midtrans.service.MidtransSnapApi;
 import com.muhammaddaffa.serverdonations.midtrans.body.RequestBodyBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.eclipse.jetty.http.HttpStatus;
 import org.json.JSONObject;
 import spark.Spark;
 
-import java.beans.PersistenceDelegate;
 import java.util.*;
 
 public class SnapAPIRedirect {
@@ -42,7 +39,11 @@ public class SnapAPIRedirect {
     }
 
     public void startReceivingNotifications(){
-        Spark.get("/midtrans/notification", ((request, response) -> {
+        Spark.port(80);
+        Spark.ipAddress("");
+        Spark.init();
+
+        Spark.post("/payment/notification", ((request, response) -> {
 
             JSONObject json = this.gson.fromJson(request.body(), JSONObject.class);
 
@@ -52,11 +53,20 @@ public class SnapAPIRedirect {
             String fraudStatus = json.getString("fraud_status");
             String statusCode = json.getString("status_code");
 
+            Bukkit.broadcastMessage(" ");
+            Bukkit.broadcastMessage("Midtrans Notification:");
+            Bukkit.broadcastMessage("Order ID: " + orderId);
+            Bukkit.broadcastMessage("Transaction Status: " + transactionStatus);
+            Bukkit.broadcastMessage("Fraud Status: " + fraudStatus);
+            Bukkit.broadcastMessage("Status Code: " + statusCode);
+            Bukkit.broadcastMessage(" ");
+
             if(transactionStatus.equals("capture") &&
                     fraudStatus.equals("accept") &&
                     statusCode.equals("200")){
 
                 Bukkit.broadcastMessage(orderId + " telah dibayar!");
+                Bukkit.getConsoleSender().sendMessage("broadcast &a&laglerr just donated to the server!");
             }
 
             response.status(200);
