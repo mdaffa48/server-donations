@@ -1,8 +1,38 @@
+# Debug option (Gunakan jika kalian mengetahui apa ini)
+debug: false
 
-production-client-key: "YOUR_PRODUCTION_CLIENT_KEY"
-production-server-key: "YOUR_PRODUCTION_SERVER_KEY"
+###############################################
+# Midtrans Section
+###############################################
+# Bagian ini merupakan bagian paling penting dari plugin ini
+# Harus di configure dengan hati hati
+###############################################
+# Configuration Explanation:
+# (midtrans)
+#   (production-mode) - Set ke 'true' jika ingin menggunakan mode sandbox
+#   (production)
+#     (client-key) - Masukan dengan client key dari Midtrans production environment
+#     (server-key) - Masukan dengan server key dari Midtrans production environment
+#   (sandbox)
+#     (client-key) - Masukan dengan client key dari Midtrans sandbox environment
+#     (server-key) - Masukan dengan server key dari Midtrans sandbox environment
+###############################################
+midtrans:
+  production-mode: false
+  production:
+    client-key: "YOUR_PRODUCTION_CLIENT_KEY"
+    server-key: "YOUR_PRODUCTION_SERVER_KEY"
+  sandbox:
+    client-key: "YOUR_SANDBOX_CLIENT_KEY"
+    server-key: "YOUR_SANDBOX_SERVER_KEY"
 
-sandbox-client-key: "YOUR_SANDBOX_CLIENT_KEY"
-sandbox-server-key: "YOUR_SANDBOX_SERVER_KEY"
+# Masukan port dengan port yang terbuka di server anda.
+# Jika anda menggunakan shared-hosting, minta kepada pengelola hosting untuk
+# memberikan open port agar bisa digunakan, port ini bertujuan untuk komunikasi antar
+# Midtrans dan server anda.
+port: 80
 
-production-mode: false
+# Path ini digunakan sebagai path untuk http request yang akan di listen oleh plugin ini
+# Selain configure disini, anda juga harus merubah 'Payment Notification URL' yang terdapat pada
+# (Midtrans -> Pengaturan -> Konfigurasi)
+notification-path: "/payment/notification"
