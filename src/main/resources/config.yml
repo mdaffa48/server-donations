@@ -1,0 +1,8 @@
+
+production-client-key: "YOUR_PRODUCTION_CLIENT_KEY"
+production-server-key: "YOUR_PRODUCTION_SERVER_KEY"
+
+sandbox-client-key: "YOUR_SANDBOX_CLIENT_KEY"
+sandbox-server-key: "YOUR_SANDBOX_SERVER_KEY"
+
+production-mode: false
