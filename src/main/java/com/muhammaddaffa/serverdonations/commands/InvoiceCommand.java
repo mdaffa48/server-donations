@@ -2,6 +2,7 @@ package com.muhammaddaffa.serverdonations.commands;
 
 import com.midtrans.httpclient.error.MidtransError;
 import com.muhammaddaffa.serverdonations.midtrans.SnapAPIRedirect;
+import com.muhammaddaffa.serverdonations.products.Product;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -24,18 +25,14 @@ public class InvoiceCommand implements CommandExecutor {
         if(!(sender instanceof Player)){
             return true;
         }
-        if(args.length < 1){
-            sender.sendMessage("Usage: /invoice (amount)");
-            return true;
-        }
         Player player = (Player) sender;
-        int amount = Integer.parseInt(args[0]);
 
         try {
+            Product product = new Product("one-thousand-coins", "One Thousand Coins", 5000);
             BaseComponent[] components = new ComponentBuilder("[Pay Here]")
                     .color(ChatColor.YELLOW)
                     .bold(true)
-                    .event(new ClickEvent(ClickEvent.Action.OPEN_URL, client.generateInvoiceURL(player, amount)))
+                    .event(new ClickEvent(ClickEvent.Action.OPEN_URL, client.generateInvoiceURL(player, product)))
                     .create();
 
             player.spigot().sendMessage(components);
