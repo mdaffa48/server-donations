@@ -6,6 +6,7 @@ import com.muhammaddaffa.serverdonations.configs.ConfigValue;
 import com.muhammaddaffa.serverdonations.midtrans.SnapAPIRedirect;
 import me.aglerr.mclibs.MCLibs;
 import me.aglerr.mclibs.libs.Common;
+import me.aglerr.mclibs.libs.Debug;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ServerDonation extends JavaPlugin {
@@ -21,6 +22,23 @@ public class ServerDonation extends JavaPlugin {
         ConfigManager.init();
         ConfigValue.init(this.getConfig());
 
+        // Should we enable debug?
+        if(ConfigValue.DEBUG){
+            Debug.enable();
+        }
+
+        // Initialize Midtrans
+        this.initializeMidtrans();
+
+        this.getCommand("invoice").setExecutor(new InvoiceCommand(this.client));
+    }
+
+    @Override
+    public void onDisable(){
+        this.client.stopReceivingNotifications();
+    }
+
+    protected void initializeMidtrans(){
         if(ConfigValue.IS_PRODUCTION_MODE){
             this.client = new SnapAPIRedirect(
                     ConfigValue.PRODUCTION_SERVER_KEY,
@@ -35,17 +53,6 @@ public class ServerDonation extends JavaPlugin {
             );
         }
         this.client.startReceivingNotifications();
-
-        this.getCommand("invoice").setExecutor(new InvoiceCommand(this.client));
-    }
-
-    @Override
-    public void onDisable(){
-        this.client.stopReceivingNotifications();
-    }
-
-    public SnapAPIRedirect getClient() {
-        return client;
     }
 
 }
