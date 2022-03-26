@@ -1,5 +1,6 @@
 package com.muhammaddaffa.serverdonations.commands;
 
+import com.midtrans.httpclient.error.MidtransError;
 import com.muhammaddaffa.serverdonations.midtrans.SnapAPIRedirect;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,7 +27,11 @@ public class InvoiceCommand implements CommandExecutor {
         Player player = (Player) sender;
         int amount = Integer.parseInt(args[0]);
 
-        player.sendMessage("Your invoice URL: " + client.generateInvoiceURL(player, amount));
+        try {
+            player.sendMessage("Your invoice URL: " + client.generateInvoiceURL(player, amount));
+        } catch (MidtransError ex){
+            ex.printStackTrace();
+        }
         return true;
     }
 
