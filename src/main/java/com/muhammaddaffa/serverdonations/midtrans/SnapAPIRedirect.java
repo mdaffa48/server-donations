@@ -4,11 +4,12 @@ import com.midtrans.Config;
 import com.midtrans.ConfigFactory;
 import com.midtrans.httpclient.error.MidtransError;
 import com.midtrans.service.MidtransSnapApi;
+import com.muhammaddaffa.serverdonations.midtrans.body.RequestBodyBuilder;
 import org.bukkit.entity.Player;
+import org.eclipse.jetty.http.HttpStatus;
+import spark.Spark;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class SnapAPIRedirect {
 
@@ -20,33 +21,36 @@ public class SnapAPIRedirect {
         ).getSnapApi();
     }
 
-    public String generateInvoiceURL(Player player, int amount){
-        try{
-
-            return this.snapAPI.createTransactionRedirectUrl(
-                    this.requestBody(player, amount)
-            );
-
-        } catch (MidtransError ex){
-            ex.printStackTrace();
-            return null;
-        }
+    public String generateInvoiceURL(Player player, int amount) throws MidtransError{
+        return this.snapAPI.createTransactionRedirectUrl(
+                this.requestBody(player, amount)
+        );
     }
 
     private Map<String, Object> requestBody(Player player, int amount){
-        Map<String, Object> params = new HashMap<>();
+        return new RequestBodyBuilder()
+                .setTransactionDetails(this.generateOrderId(player), amount)
+                .setCustomerDetails(player.getName())
+                .addItemDetail(amount, 1, "1000 Coins")
+                .build();
+    }
 
-        Map<String, String> transactionDetails = new HashMap<>();
-        transactionDetails.put("order_id", this.generateOrderId(player));
-        transactionDetails.put("gross_amount", amount + "");
+    public void startReceivingNotifications(){
+        Spark.get("/midtrans/notification", ((request, response) -> {
 
-        params.put("transaction_details", transactionDetails);
+            System.out.println(request);
+            System.out.println(response);
 
-        return params;
+            return HttpStatus.OK_200;
+        }));
+    }
+
+    public void stopReceivingNotifications(){
+        Spark.stop();
     }
 
     private String generateOrderId(Player player){
-        return "midtrans_" + player.getName() + "_random=" + UUID.randomUUID();
+        return player.getName() + "_" + UUID.randomUUID();
     }
 
 }
