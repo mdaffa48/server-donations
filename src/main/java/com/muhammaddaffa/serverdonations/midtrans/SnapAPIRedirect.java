@@ -40,7 +40,6 @@ public class SnapAPIRedirect {
 
     public void startReceivingNotifications(){
         Spark.port(80);
-        Spark.ipAddress("");
         Spark.init();
 
         Spark.post("/payment/notification", ((request, response) -> {
