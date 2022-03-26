@@ -2,6 +2,10 @@ package com.muhammaddaffa.serverdonations.commands;
 
 import com.midtrans.httpclient.error.MidtransError;
 import com.muhammaddaffa.serverdonations.midtrans.SnapAPIRedirect;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,7 +32,14 @@ public class InvoiceCommand implements CommandExecutor {
         int amount = Integer.parseInt(args[0]);
 
         try {
-            player.sendMessage("Your invoice URL: " + client.generateInvoiceURL(player, amount));
+            BaseComponent[] components = new ComponentBuilder("[Pay Here]")
+                    .color(ChatColor.YELLOW)
+                    .bold(true)
+                    .event(new ClickEvent(ClickEvent.Action.OPEN_URL, client.generateInvoiceURL(player, amount)))
+                    .create();
+
+            player.spigot().sendMessage(components);
+
         } catch (MidtransError ex){
             ex.printStackTrace();
         }
