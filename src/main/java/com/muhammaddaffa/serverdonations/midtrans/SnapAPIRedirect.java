@@ -7,6 +7,7 @@ import com.midtrans.Config;
 import com.midtrans.ConfigFactory;
 import com.midtrans.httpclient.error.MidtransError;
 import com.midtrans.service.MidtransSnapApi;
+import com.muhammaddaffa.serverdonations.configs.ConfigValue;
 import com.muhammaddaffa.serverdonations.midtrans.helpers.JsonObjectWrapper;
 import com.muhammaddaffa.serverdonations.midtrans.helpers.RequestBodyBuilder;
 import com.muhammaddaffa.serverdonations.products.Product;
@@ -42,10 +43,10 @@ public class SnapAPIRedirect {
     }
 
     public void startReceivingNotifications() {
-        Spark.port(80);
+        Spark.port(ConfigValue.PORT);
         Spark.init();
 
-        Spark.post("/payment/notification", ((request, response) -> {
+        Spark.post(ConfigValue.PATH, ((request, response) -> {
 
             JsonObjectWrapper wrapper = new JsonObjectWrapper(request.body());
 
@@ -53,7 +54,6 @@ public class SnapAPIRedirect {
             response.status(200);
 
             String orderId = wrapper.getString("order_id");
-            Bukkit.broadcastMessage("Order ID: " + orderId);
             String transactionStatus = wrapper.getString("transaction_status");
             String fraudStatus = wrapper.getString("fraud_status");
             String statusCode = wrapper.getString("status_code");
