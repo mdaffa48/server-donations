@@ -11,24 +11,24 @@ public class RequestBodyBuilder {
     private final List<Map<String, String>> items = new ArrayList<>();
 
     public RequestBodyBuilder setTransactionDetails(String orderId, int price){
-        Map<String, String> transactionDetails = new HashMap<>();
+        final Map<String, String> transactionDetails = new HashMap<>();
         transactionDetails.put("order_id", orderId);
         transactionDetails.put("gross_amount", price + "");
 
-        body.put("transaction_details", transactionDetails);
+        this.body.put("transaction_details", transactionDetails);
         return this;
     }
 
     public RequestBodyBuilder setCustomerDetails(String name){
-        Map<String, String> customerDetails = new HashMap<>();
+        final Map<String, String> customerDetails = new HashMap<>();
         customerDetails.put("first_name", name);
 
-        body.put("customer_details", customerDetails);
+        this.body.put("customer_details", customerDetails);
         return this;
     }
 
     public RequestBodyBuilder addItemDetail(int price, int qty, String name){
-        Map<String, String> item = new HashMap<>();
+        final Map<String, String> item = new HashMap<>();
         item.put("price", price + "");
         item.put("quantity", qty + "");
         item.put("name", name);
@@ -39,7 +39,7 @@ public class RequestBodyBuilder {
 
     public Map<String, Object> build(){
         if(!items.isEmpty()){
-            body.put("item_details", this.items);
+            this.body.put("item_details", this.items);
         }
         return body;
     }
