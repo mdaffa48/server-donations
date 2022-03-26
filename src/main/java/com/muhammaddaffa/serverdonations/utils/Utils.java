@@ -8,12 +8,6 @@ import java.util.logging.Level;
 
 public class Utils {
 
-    public static void debug(String... messages){
-        for (String message : messages) {
-            Bukkit.getLogger().log(Level.INFO, message);
-        }
-    }
-
     public static String generateOrderId(Player player){
         return generateOrderId(player.getName());
     }
