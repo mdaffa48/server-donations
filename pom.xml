@@ -59,6 +59,10 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>codemc-snapshots</id>
+            <url>https://repo.codemc.org/repository/maven-snapshots/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -69,6 +73,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>net.skinsrestorer</groupId>
+            <artifactId>skinsrestorer-api</artifactId>
+            <version>14.1.14-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>com.github.aglerr</groupId>
             <artifactId>MCLibs</artifactId>
