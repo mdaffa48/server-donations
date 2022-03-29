@@ -1,8 +1,5 @@
 package com.muhammaddaffa.serverdonations.midtrans;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.midtrans.Config;
 import com.midtrans.ConfigFactory;
 import com.midtrans.httpclient.error.MidtransError;
@@ -21,7 +18,6 @@ import java.util.*;
 
 public class SnapAPIRedirect {
 
-    private final Gson gson = new Gson();
     private final MidtransSnapApi snapAPI;
 
     public SnapAPIRedirect(String serverKey, String clientKey, boolean production) {
@@ -47,9 +43,7 @@ public class SnapAPIRedirect {
         Spark.init();
 
         Spark.post(ConfigValue.PATH, ((request, response) -> {
-
             JsonObjectWrapper wrapper = new JsonObjectWrapper(request.body());
-
             // Successfully getting notification data
             response.status(200);
 
@@ -59,17 +53,18 @@ public class SnapAPIRedirect {
             String statusCode = wrapper.getString("status_code");
 
             Debug.send(
-                    "",
+                    " ",
                     "&e-- Midtrans Notification --",
                     "&eOrder ID: " + orderId,
                     "&eTransaction Details: " + transactionStatus,
                     "&eFraud Status: " + fraudStatus,
-                    "&eStatus Code: " + statusCode
+                    "&eStatus Code: " + statusCode,
+                    " "
             );
 
-            if (transactionStatus.equals("capture") &&
+            if(this.isStatusGood(transactionStatus) &&
                     fraudStatus.equals("accept") &&
-                    statusCode.equals("200")) {
+                    statusCode.equals("200")){
 
                 Bukkit.broadcastMessage(orderId + " telah dibayar!");
                 Bukkit.getConsoleSender().sendMessage("broadcast &a&laglerr just donated to the server!");
@@ -82,6 +77,10 @@ public class SnapAPIRedirect {
 
     public void stopReceivingNotifications() {
         Spark.stop();
+    }
+
+    private boolean isStatusGood(String status){
+        return status.equals("cature") || status.equals("settlement");
     }
 
 }
