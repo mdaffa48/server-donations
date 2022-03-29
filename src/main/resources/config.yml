@@ -36,3 +36,9 @@ port: 80
 # Selain configure disini, anda juga harus merubah 'Payment Notification URL' yang terdapat pada
 # (Midtrans -> Pengaturan -> Konfigurasi)
 notification-path: "/payment/notification"
+
+# Apakah kita akan menggunakan UUID untuk menemukan skin dari kepala player?
+# Option ini akan di disable otomatis jika menggunakan SkinsRestorer.
+use-uuid: false
+
+announcements:

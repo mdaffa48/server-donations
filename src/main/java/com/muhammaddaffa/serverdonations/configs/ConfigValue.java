@@ -15,6 +15,8 @@ public class ConfigValue {
     public static int PORT;
     public static String PATH;
 
+    public static boolean USE_UUID;
+
     public static void init(FileConfiguration config){
         DEBUG = config.getBoolean("debug");
 
@@ -26,6 +28,8 @@ public class ConfigValue {
 
         PORT = config.getInt("port", 80);
         PATH = config.getString("notification-path", "/payment/notification");
+
+        USE_UUID = config.getBoolean("use-uuid");
     }
 
 }
