@@ -1,5 +1,6 @@
 package com.muhammaddaffa.serverdonations.products;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,7 +9,7 @@ public class ProductBuilder {
     private String name;
     private String displayName;
     private Integer price;
-    private List<String> commands;
+    private List<String> commands = new ArrayList<>();
 
     public ProductBuilder setName(String name){
         this.name = name;
