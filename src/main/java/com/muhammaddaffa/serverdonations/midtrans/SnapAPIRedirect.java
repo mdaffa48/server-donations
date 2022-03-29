@@ -8,6 +8,7 @@ import com.muhammaddaffa.serverdonations.configs.ConfigValue;
 import com.muhammaddaffa.serverdonations.midtrans.helpers.JsonObjectWrapper;
 import com.muhammaddaffa.serverdonations.midtrans.helpers.RequestBodyBuilder;
 import com.muhammaddaffa.serverdonations.products.Product;
+import com.muhammaddaffa.serverdonations.transactions.OrderId;
 import com.muhammaddaffa.serverdonations.utils.Utils;
 import me.aglerr.mclibs.libs.Debug;
 import org.bukkit.Bukkit;
@@ -32,7 +33,7 @@ public class SnapAPIRedirect {
 
     private Map<String, Object> requestBody(Player player, Product product) {
         return new RequestBodyBuilder()
-                .setTransactionDetails(Utils.generateOrderId(player), product)
+                .setTransactionDetails(OrderId.generate(player), product)
                 .setCustomerDetails(player.getName())
                 .addItemDetail(product)
                 .build();
