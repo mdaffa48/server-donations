@@ -56,7 +56,8 @@ public class SQLDatabaseInitializer {
                 "id INTEGER PRIMARY KEY AUTO_INCREMENT, " +
                 "customer_name TEXT, " +
                 "order_id TEXT, " +
-                "product TEXT" +
+                "product TEXT, " +
+                "status TEXT" +
                 ");"
         );
     }
