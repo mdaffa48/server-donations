@@ -3,10 +3,12 @@ package com.muhammaddaffa.serverdonations;
 import com.muhammaddaffa.serverdonations.commands.InvoiceCommand;
 import com.muhammaddaffa.serverdonations.configs.ConfigManager;
 import com.muhammaddaffa.serverdonations.configs.ConfigValue;
+import com.muhammaddaffa.serverdonations.database.SQLDatabaseInitializer;
 import com.muhammaddaffa.serverdonations.midtrans.SnapAPIRedirect;
 import me.aglerr.mclibs.MCLibs;
 import me.aglerr.mclibs.libs.Common;
 import me.aglerr.mclibs.libs.Debug;
+import me.aglerr.mclibs.mysql.SQLHelper;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ServerDonation extends JavaPlugin {
@@ -27,6 +29,9 @@ public class ServerDonation extends JavaPlugin {
             Debug.enable();
         }
 
+        // Initialize the database
+        SQLDatabaseInitializer.getInstance().init(this);
+
         // Initialize Midtrans
         this.connectSnapAPI();
 
@@ -35,7 +40,10 @@ public class ServerDonation extends JavaPlugin {
 
     @Override
     public void onDisable(){
+        // Close the Midtrans SnapAPIRedirect
         this.client.stopReceivingNotifications();
+        // Close the database connection
+        SQLHelper.close();
     }
 
     protected void connectSnapAPI(){
