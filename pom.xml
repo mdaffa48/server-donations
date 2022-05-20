@@ -80,9 +80,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.aglerr</groupId>
+            <groupId>me.aglerr.mclibs</groupId>
             <artifactId>MCLibs</artifactId>
-            <version>0.1.3</version>
+            <version>0.1.6</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
