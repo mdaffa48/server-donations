@@ -40,8 +40,8 @@ public class ServerDonation extends JavaPlugin {
 
     protected void connectSnapAPI(){
         this.client = new SnapAPIRedirect(
-                ConfigValue.PRODUCTION_SERVER_KEY,
-                ConfigValue.PRODUCTION_CLIENT_KEY,
+                ConfigValue.SERVER_KEY,
+                ConfigValue.CLIENT_KEY,
                 ConfigValue.IS_PRODUCTION_MODE
         );
         this.client.startReceivingNotifications();
