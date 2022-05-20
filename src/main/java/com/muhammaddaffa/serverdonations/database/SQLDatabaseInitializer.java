@@ -21,22 +21,23 @@ public class SQLDatabaseInitializer {
 
     public void init(JavaPlugin plugin) {
         HikariConfig config;
+        HikariConfigBuilder builder = new HikariConfigBuilder()
+                .setPoolName("ServerDonation Pool")
+                .setWaitTimeout(ConfigValue.MYSQL_WAIT_TIMEOUT)
+                .setMaxLifetime(ConfigValue.MYSQL_MAX_LIFETIME)
+                .setPublicKeyRetrieval(ConfigValue.MYSQL_KEY_RETRIEVAL);
+
         if (ConfigValue.MYSQL_ENABLED) {
-            config = new HikariConfigBuilder()
+            config = builder
                     .setHost(ConfigValue.MYSQL_HOST)
                     .setDatabase(ConfigValue.MYSQL_DATABASE)
                     .setUser(ConfigValue.MYSQL_USER)
                     .setPassword(ConfigValue.MYSQL_PASSWORD)
-                    .setPoolName("ServerDonation Pool")
                     .setPort(ConfigValue.MYSQL_PORT)
                     .setUseSSL(ConfigValue.MYSQL_SSL)
-                    .setWaitTimeout(ConfigValue.MYSQL_WAIT_TIMEOUT)
-                    .setMaxLifetime(ConfigValue.MYSQL_MAX_LIFETIME)
-                    .setPublicKeyRetrieval(ConfigValue.MYSQL_KEY_RETRIEVAL)
                     .buildMysql();
         } else {
-            config = new HikariConfigBuilder()
-                    .setPoolName("ServerDonation Pool")
+            config = builder
                     .setPath("plugins/ServerDonations/database.db")
                     .buildSQLite();
         }
@@ -65,7 +66,7 @@ public class SQLDatabaseInitializer {
     private void createUserTable() {
         SQLHelper.executeUpdate("CREATE TABLE IF NOT EXISTS " + USER_TABLE + " (" +
                 "id INTEGER PRIMARY KEY AUTO_INCREMENT, " +
-                "name, TEXT, " +
+                "name VARCHAR(255), " +
                 "total_pembelian BIGINT" +
                 ");"
         );
