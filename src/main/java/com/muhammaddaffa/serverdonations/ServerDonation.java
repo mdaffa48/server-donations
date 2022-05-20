@@ -28,7 +28,7 @@ public class ServerDonation extends JavaPlugin {
         }
 
         // Initialize Midtrans
-        this.initializeMidtrans();
+        this.connectSnapAPI();
 
         this.getCommand("invoice").setExecutor(new InvoiceCommand(this.client));
     }
@@ -38,20 +38,12 @@ public class ServerDonation extends JavaPlugin {
         this.client.stopReceivingNotifications();
     }
 
-    protected void initializeMidtrans(){
-        if(ConfigValue.IS_PRODUCTION_MODE){
-            this.client = new SnapAPIRedirect(
-                    ConfigValue.PRODUCTION_SERVER_KEY,
-                    ConfigValue.PRODUCTION_CLIENT_KEY,
-                    true
-            );
-        } else {
-            this.client = new SnapAPIRedirect(
-                    ConfigValue.SANDBOX_SERVER_KEY,
-                    ConfigValue.SANDBOX_CLIENT_KEY,
-                    false
-            );
-        }
+    protected void connectSnapAPI(){
+        this.client = new SnapAPIRedirect(
+                ConfigValue.PRODUCTION_SERVER_KEY,
+                ConfigValue.PRODUCTION_CLIENT_KEY,
+                ConfigValue.IS_PRODUCTION_MODE
+        );
         this.client.startReceivingNotifications();
     }
 
