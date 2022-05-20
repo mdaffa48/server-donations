@@ -1,4 +1,4 @@
-package com.muhammaddaffa.serverdonations.libs;
+package com.muhammaddaffa.serverdonations.utils;
 
 public enum ImageChar {
     BLOCK('█'),

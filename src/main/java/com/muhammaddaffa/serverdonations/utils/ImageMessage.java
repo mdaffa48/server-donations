@@ -1,10 +1,8 @@
-package com.muhammaddaffa.serverdonations.libs;
+package com.muhammaddaffa.serverdonations.utils;
 
-import com.muhammaddaffa.serverdonations.products.Product;
 import me.aglerr.mclibs.libs.Common;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.util.ChatPaginator;
 
 import java.awt.*;
