@@ -32,13 +32,49 @@ midtrans:
 # Midtrans dan server anda.
 port: 80
 
-# Path ini digunakan sebagai path untuk http request yang akan di listen oleh plugin ini
-# Selain configure disini, anda juga harus merubah 'Payment Notification URL' yang terdapat pada
+# Path ini digunakan sebagai path untuk http request yang akan diterima oleh plugin ini
+# Selain mengatur config ini, anda juga harus merubah 'Payment Notification URL' yang terdapat pada
 # (Midtrans -> Pengaturan -> Konfigurasi)
 notification-path: "/payment/notification"
 
-# Apakah kita akan menggunakan UUID untuk menemukan skin dari kepala player?
-# Option ini akan di disable otomatis jika menggunakan SkinsRestorer.
-use-uuid: false
+# MySQL Credentials
+# Jika mysql tidak digunakan atau di disable, maka plugin akan
+# menggunakan SQLite database
+mysql:
+  enabled: false
+  host: localhost
+  port: 3306
+  database: db_donations
+  user: root
+  password: ''
+  useSSL: false
+  hikari:
+    waitTimeout: 600000
+    maxLifetime: 1800000
+    publicKeyRetrieval: true
 
-announcements:
+# Apakah kita akan menggunakan avatar message?
+use-avatar-message: true
+
+# Messages ini akan mendapatkan kepala dari skin player
+# dan message ini akan digunakan jika option (use-avatar-message) dinyalakan
+avatar-messages:
+  header: "&6&m--------------------------------------------"
+  line1: ""
+  line2: " &6» &l{player} &ejust donated!"
+  line3: " &6» &7Type &6/buy &7to see the store"
+  line4: ""
+  line5: ""
+  line6: " &6Product: {product_name} &7(Rp. {product_price})"
+  line7: " &7(( Bantu donasi agar server tetap hidup! ))"
+  line8: ""
+  footer: "&6&m--------------------------------------------"
+
+# Message ini akan digunakan jika option (use-avatar-message) di non-aktifkan
+normal-messages:
+  - "&6&m--------------------------------------------"
+  - " &6» &l{player} &ejust donated!"
+  - " &6Product: {product_name} &7(Rp. {product_price})"
+  - ""
+  - "&7(( Bantu server kami agar tetap hidup! ))"
+  - "&6&m--------------------------------------------"

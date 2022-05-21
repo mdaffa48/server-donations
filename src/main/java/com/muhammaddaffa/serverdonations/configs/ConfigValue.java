@@ -2,6 +2,8 @@ package com.muhammaddaffa.serverdonations.configs;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.List;
+
 public class ConfigValue {
 
     public static boolean DEBUG;
@@ -24,7 +26,19 @@ public class ConfigValue {
     public static int MYSQL_MAX_LIFETIME;
     public static boolean MYSQL_KEY_RETRIEVAL;
 
-    public static boolean USE_UUID;
+    public static boolean USE_AVATAR_MESSAGE;
+    public static String AVATAR_HEADER;
+    public static String AVATAR_LINE1;
+    public static String AVATAR_LINE2;
+    public static String AVATAR_LINE3;
+    public static String AVATAR_LINE4;
+    public static String AVATAR_LINE5;
+    public static String AVATAR_LINE6;
+    public static String AVATAR_LINE7;
+    public static String AVATAR_LINE8;
+    public static String AVATAR_FOOTER;
+
+    public static List<String> NORMAL_MESSAGES;
 
     public static void init(FileConfiguration config){
         DEBUG = config.getBoolean("debug");
@@ -52,7 +66,19 @@ public class ConfigValue {
         MYSQL_MAX_LIFETIME = config.getInt("mysql.hikari.maxLifetime");
         MYSQL_KEY_RETRIEVAL = config.getBoolean("mysql.hikari.publicKeyRetrieval");
 
-        USE_UUID = config.getBoolean("use-uuid");
+        USE_AVATAR_MESSAGE = config.getBoolean("use-avatar-message");
+        AVATAR_HEADER = config.getString("avatar-messages.header");
+        AVATAR_LINE1 = config.getString("avatar-messages.line1");
+        AVATAR_LINE2 = config.getString("avatar-messages.line2");
+        AVATAR_LINE3 = config.getString("avatar-messages.line3");
+        AVATAR_LINE4 = config.getString("avatar-messages.line4");
+        AVATAR_LINE5 = config.getString("avatar-messages.line5");
+        AVATAR_LINE6 = config.getString("avatar-messages.line6");
+        AVATAR_LINE7 = config.getString("avatar-messages.line7");
+        AVATAR_LINE8 = config.getString("avatar-messages.line8");
+        AVATAR_FOOTER = config.getString("avatar-messages.footer");
+
+        NORMAL_MESSAGES = config.getStringList("normal-messages");
     }
 
 }
