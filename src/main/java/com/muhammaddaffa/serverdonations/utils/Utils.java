@@ -11,7 +11,7 @@ import java.util.logging.Level;
 
 public class Utils {
 
-    private static DecimalFormat format = new DecimalFormat("###,###,###,###,###.##");
+    private static final DecimalFormat format = new DecimalFormat("###,###,###,###,###.##");
 
     public static String getMinepicURL(Player player) {
         String url = "https://minepic.org/avatar/8/";
@@ -27,14 +27,6 @@ public class Utils {
 
     public static String formatNumber(int number) {
         return format.format(number);
-    }
-
-    public static String generateOrderId(Player player){
-        return generateOrderId(player.getName());
-    }
-
-    public static String generateOrderId(String customerName){
-        return customerName + "_" + UUID.randomUUID();
     }
 
 }
