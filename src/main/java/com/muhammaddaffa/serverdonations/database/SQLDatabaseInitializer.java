@@ -53,21 +53,21 @@ public class SQLDatabaseInitializer {
     }
 
     private void createTransactionTable() {
-        SQLHelper.executeUpdate("CREATE TABLE IF NOT EXISTS " + TRANSACTION_TABLE + " (" +
-                "id INTEGER PRIMARY KEY AUTO_INCREMENT, " +
+        SQLHelper.executeUpdate("CREATE TABLE IF NOT EXISTS `" + TRANSACTION_TABLE + "` (" +
                 "customer_name TEXT, " +
                 "order_id TEXT, " +
                 "product TEXT, " +
-                "status TEXT" +
+                "status TEXT, " +
+                "PRIMARY KEY (order_id)" +
                 ");"
         );
     }
 
     private void createUserTable() {
-        SQLHelper.executeUpdate("CREATE TABLE IF NOT EXISTS " + USER_TABLE + " (" +
-                "id INTEGER PRIMARY KEY AUTO_INCREMENT, " +
+        SQLHelper.executeUpdate("CREATE TABLE IF NOT EXISTS `" + USER_TABLE + "` (" +
                 "name VARCHAR(255), " +
-                "total_pembelian BIGINT" +
+                "total BIGINT, " +
+                "PRIMARY KEY (name)" +
                 ");"
         );
     }
