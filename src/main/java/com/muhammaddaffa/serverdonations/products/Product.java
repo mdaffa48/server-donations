@@ -32,14 +32,14 @@ public record Product(
                     BufferedImage image = ImageIO.read(url);
 
                     String[] additional = new String[]{
-                            this.parse(ConfigValue.AVATAR_LINE1),
-                            this.parse(ConfigValue.AVATAR_LINE2),
-                            this.parse(ConfigValue.AVATAR_LINE3),
-                            this.parse(ConfigValue.AVATAR_LINE4),
-                            this.parse(ConfigValue.AVATAR_LINE5),
-                            this.parse(ConfigValue.AVATAR_LINE6),
-                            this.parse(ConfigValue.AVATAR_LINE7),
-                            this.parse(ConfigValue.AVATAR_LINE8)
+                            this.parse(player, ConfigValue.AVATAR_LINE1),
+                            this.parse(player, ConfigValue.AVATAR_LINE2),
+                            this.parse(player, ConfigValue.AVATAR_LINE3),
+                            this.parse(player, ConfigValue.AVATAR_LINE4),
+                            this.parse(player, ConfigValue.AVATAR_LINE5),
+                            this.parse(player, ConfigValue.AVATAR_LINE6),
+                            this.parse(player, ConfigValue.AVATAR_LINE7),
+                            this.parse(player, ConfigValue.AVATAR_LINE8)
                     };
 
                     // Finally, send the message
@@ -53,6 +53,13 @@ public record Product(
                             Bukkit.broadcastMessage(Common.color(message)));
                 }
 
+                // Run all commands
+                Executor.sync(() -> {
+                    for (String command : this.commands()) {
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), this.parse(player, command));
+                    }
+                });
+
             } catch (IOException ex) {
                 Common.log("&cFailed to send broadcast donation");
                 ex.printStackTrace();
@@ -60,8 +67,10 @@ public record Product(
         });
     }
 
-    private String parse(String message) {
-        return message.replace("{product_name}", this.displayName())
+    private String parse(Player player, String message) {
+        return message
+                .replace("{player}", player.getName())
+                .replace("{product_name}", this.displayName())
                 .replace("{product_price}", Utils.formatNumber(this.price()));
     }
 
