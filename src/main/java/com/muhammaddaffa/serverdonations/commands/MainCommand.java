@@ -6,6 +6,7 @@ import com.muhammaddaffa.serverdonations.midtrans.SnapAPIRedirect;
 import com.muhammaddaffa.serverdonations.products.Product;
 import com.muhammaddaffa.serverdonations.products.ProductManager;
 import com.muhammaddaffa.serverdonations.transactions.TransactionTracker;
+import com.muhammaddaffa.serverdonations.utils.Utils;
 import me.aglerr.mclibs.libs.Common;
 import me.aglerr.mclibs.libs.Executor;
 import net.md_5.bungee.api.chat.*;
@@ -101,14 +102,14 @@ public class MainCommand implements TabExecutor {
             return;
         }
 
-        if (this.tracker.hasPendingOrder(player.getName())) {
-            Common.sendMessage(sender, "&cThat player has a pending order");
-            return;
-        }
-
         Common.sendMessage(sender, ConfigValue.SEND_DONATION
                 .replace("{player}", player.getName())
                 .replace("{product_name}", product.displayName()));
+
+        if (this.tracker.hasPendingOrder(player.getName())) {
+            Common.sendMessage(sender, ConfigValue.PENDING_DONATION);
+            return;
+        }
 
         this.tracker.add(player.getName());
         // Send invoice URL to the player
@@ -124,7 +125,10 @@ public class MainCommand implements TabExecutor {
                     player.spigot().sendMessage(component);
                     continue;
                 }
-                Common.sendMessage(player, message);
+                Common.sendMessage(player, message
+                        .replace("{player}", player.getName())
+                        .replace("{product_name}", product.displayName())
+                        .replace("{product_price}", Utils.formatNumber(product.price())));
             }
 
         });
