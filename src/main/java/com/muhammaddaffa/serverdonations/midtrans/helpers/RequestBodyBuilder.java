@@ -16,7 +16,7 @@ public class RequestBodyBuilder {
     private final List<Map<String, String>> items = new ArrayList<>();
 
     public RequestBodyBuilder setTransactionDetails(String orderId, Product product){
-        this.body.put("transaction_details", new TransactionDetails(orderId, product.getPrice()).toMap());
+        this.body.put("transaction_details", new TransactionDetails(orderId, product.price()).toMap());
         return this;
     }
 
@@ -26,7 +26,7 @@ public class RequestBodyBuilder {
     }
 
     public RequestBodyBuilder addItemDetail(Product product){
-        this.items.add(new ItemDetails(product.getName(), product.getPrice(), 1).toMap());
+        this.items.add(new ItemDetails(product.name(), product.price(), 1).toMap());
         return this;
     }
 
