@@ -1,6 +1,7 @@
 package com.muhammaddaffa.serverdonations.products;
 
 import com.muhammaddaffa.serverdonations.configs.ConfigManager;
+import me.aglerr.mclibs.libs.Common;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,19 +26,30 @@ public class ProductManager {
         if (!config.isConfigurationSection("products")) {
             return;
         }
+
+        long start = System.currentTimeMillis();
+        Common.log("&eStarting to load all products...");
+
         for (String key : config.getConfigurationSection("products").getKeys(false)) {
+            String name = config.getString("products." + key + ".product-name");
             String displayName = config.getString("products." + key + ".display-name");
             int price = config.getInt("products." + key + ".price");
             List<String> commands = config.getStringList("products." + key + ".commands");
 
             this.productMap.put(key, new ProductBuilder()
+                            .setName(name)
                             .setKey(key)
                             .setDisplayName(displayName)
                             .setPrice(price)
                             .setCommands(commands)
                             .build()
             );
+
+            Common.log("&aLoaded product '" + key + "'");
         }
+
+        Common.log("&eAll products has been loaded (took {ms}ms)"
+                .replace("{ms}", System.currentTimeMillis() - start + ""));
     }
 
 }
