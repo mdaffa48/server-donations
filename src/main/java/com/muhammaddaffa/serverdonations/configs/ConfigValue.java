@@ -48,6 +48,7 @@ public class ConfigValue {
     public static String INVALID_PRODUCT;
     public static String INVALID_PLAYER;
     public static String SEND_DONATION;
+    public static String PENDING_DONATION;
     public static List<String> HELP;
 
     public static void init(){
@@ -100,6 +101,7 @@ public class ConfigValue {
         INVALID_PRODUCT = config.getString("messages.invalid-product");
         INVALID_PLAYER = config.getString("messages.invalid-player");
         SEND_DONATION = config.getString("messages.send-donation");
+        PENDING_DONATION = config.getString("messages.pending-donation");
         HELP = config.getStringList("messages.help");
     }
 

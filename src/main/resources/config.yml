@@ -95,6 +95,7 @@ messages:
   invalid-product: "&cThere is no product with that name"
   invalid-player: "&cThat player is not online!"
   send-donation: "&aYou have send a {product_name} donation for &e{player}"
+  pending-donation: "&cYou have a pending donation, please complete it first"
   help:
     - "&e&lServer Donations &7- by aglerr"
     - "&e/donations reload &7- reload the configuration"
