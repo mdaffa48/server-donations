@@ -40,6 +40,12 @@ public class ConfigValue {
 
     public static List<String> NORMAL_MESSAGES;
 
+    public static String NO_PERMISSION;
+    public static String RELOAD;
+    public static String INVALID_PRODUCT;
+    public static String SEND_DONATION;
+    public static List<String> HELP;
+
     public static void init(FileConfiguration config){
         DEBUG = config.getBoolean("debug");
 
@@ -79,6 +85,12 @@ public class ConfigValue {
         AVATAR_FOOTER = config.getString("avatar-messages.footer");
 
         NORMAL_MESSAGES = config.getStringList("normal-messages");
+
+        NO_PERMISSION = config.getString("messages.no-permission");
+        RELOAD = config.getString("messages.reload");
+        INVALID_PRODUCT = config.getString("messages.invalid-product");
+        SEND_DONATION = config.getString("messages.send-donation");
+        HELP = config.getStringList("messages.help");
     }
 
 }
