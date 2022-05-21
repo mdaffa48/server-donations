@@ -7,6 +7,7 @@ import com.muhammaddaffa.serverdonations.database.SQLDatabaseInitializer;
 import com.muhammaddaffa.serverdonations.hooks.SkinsRestorerHook;
 import com.muhammaddaffa.serverdonations.midtrans.SnapAPIRedirect;
 import com.muhammaddaffa.serverdonations.products.ProductManager;
+import com.muhammaddaffa.serverdonations.transactions.TransactionTracker;
 import me.aglerr.mclibs.MCLibs;
 import me.aglerr.mclibs.libs.Common;
 import me.aglerr.mclibs.libs.Debug;
@@ -21,6 +22,7 @@ public class ServerDonation extends JavaPlugin {
     private SnapAPIRedirect client;
 
     private final ProductManager productManager = new ProductManager();
+    private final TransactionTracker tracker = new TransactionTracker();
 
     @Override
     public void onEnable(){
@@ -56,7 +58,7 @@ public class ServerDonation extends JavaPlugin {
     }
 
     private void registerCommands() {
-        MainCommand command = new MainCommand(this.client, this.productManager, this);
+        MainCommand command = new MainCommand(this.client, this.productManager, this, this.tracker);
 
         this.getCommand("donations").setExecutor(command);
         this.getCommand("donations").setTabCompleter(command);
@@ -86,7 +88,8 @@ public class ServerDonation extends JavaPlugin {
                 ConfigValue.SERVER_KEY,
                 ConfigValue.CLIENT_KEY,
                 ConfigValue.IS_PRODUCTION_MODE,
-                this.productManager
+                this.productManager,
+                this.tracker
         );
         this.client.handleNotification();
     }

@@ -5,6 +5,7 @@ import com.muhammaddaffa.serverdonations.configs.ConfigValue;
 import com.muhammaddaffa.serverdonations.midtrans.SnapAPIRedirect;
 import com.muhammaddaffa.serverdonations.products.Product;
 import com.muhammaddaffa.serverdonations.products.ProductManager;
+import com.muhammaddaffa.serverdonations.transactions.TransactionTracker;
 import me.aglerr.mclibs.libs.Common;
 import me.aglerr.mclibs.libs.Executor;
 import net.md_5.bungee.api.chat.*;
@@ -25,11 +26,14 @@ public class MainCommand implements TabExecutor {
     private final SnapAPIRedirect client;
     private final ProductManager productManager;
     private final ServerDonation plugin;
+    private final TransactionTracker tracker;
 
-    public MainCommand(SnapAPIRedirect client, ProductManager productManager, ServerDonation plugin) {
+    public MainCommand(SnapAPIRedirect client, ProductManager productManager, ServerDonation plugin,
+                       TransactionTracker tracker) {
         this.client = client;
         this.productManager = productManager;
         this.plugin = plugin;
+        this.tracker = tracker;
     }
 
     @Override
@@ -96,10 +100,17 @@ public class MainCommand implements TabExecutor {
             Common.sendMessage(sender, ConfigValue.INVALID_PRODUCT);
             return;
         }
+
+        if (this.tracker.hasPendingOrder(player.getName())) {
+            Common.sendMessage(sender, "&cThat player has a pending order");
+            return;
+        }
+
         Common.sendMessage(sender, ConfigValue.SEND_DONATION
                 .replace("{player}", player.getName())
                 .replace("{product_name}", product.displayName()));
 
+        this.tracker.add(player.getName());
         // Send invoice URL to the player
         Executor.async(() -> {
             String url = this.client.generateInvoiceURL(player, product);

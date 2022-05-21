@@ -11,6 +11,7 @@ import com.muhammaddaffa.serverdonations.midtrans.helpers.RequestBodyBuilder;
 import com.muhammaddaffa.serverdonations.products.Product;
 import com.muhammaddaffa.serverdonations.products.ProductManager;
 import com.muhammaddaffa.serverdonations.transactions.OrderId;
+import com.muhammaddaffa.serverdonations.transactions.TransactionTracker;
 import me.aglerr.mclibs.libs.Common;
 import me.aglerr.mclibs.libs.Debug;
 import me.aglerr.mclibs.libs.Executor;
@@ -30,13 +31,16 @@ public class SnapAPIRedirect implements Listener {
 
     private final MidtransSnapApi snapAPI;
     private final ProductManager productManager;
+    private final TransactionTracker tracker;
 
     private final Map<String, Product> pendingDonations = new HashMap<>();
 
-    public SnapAPIRedirect(String serverKey, String clientKey, boolean production, ProductManager productManager) {
+    public SnapAPIRedirect(String serverKey, String clientKey, boolean production,
+                           ProductManager productManager, TransactionTracker tracker) {
         this.snapAPI = new ConfigFactory(new Config(serverKey, clientKey, production))
                 .getSnapApi();
         this.productManager = productManager;
+        this.tracker = tracker;
     }
 
     public String generateInvoiceURL(@NotNull Player player, @NotNull Product product) {
@@ -117,6 +121,7 @@ public class SnapAPIRedirect implements Listener {
                             Player player = Bukkit.getPlayer(playerName);
                             Product product = this.productManager.getProduct(productKey);
 
+                            this.tracker.remove(playerName);
                             this.updateTransaction(orderId);
 
                             if (player == null) {
