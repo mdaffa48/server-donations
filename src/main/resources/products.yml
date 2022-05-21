@@ -1,1 +1,17 @@
-products: []
+# Penjelasan tentang konfigurasi berikut
+# (products)
+#   (configKey) Bagian ini harus unik dan akan digunakan untuk mengidentifikasi produk
+#     (display-name) Display name akan digunakan pada saat menampilkan produk
+#     (price) Harga dari produk tersebut, tidak boleh ada koma dan harga dalam rupiah
+#     (commands) Daftar command yang akan dijalankan ketika player melakukan donasi dengan produk tersebut
+products:
+  vip:
+    display-name: "&aVIP Rank"
+    price: 10000
+    commands:
+      - "lp user {player} group set vip"
+  5000_coins:
+    display-name: "&#c2f723&5,000 Server Coins"
+    price: 5000
+    commands:
+      - "eco give {player} 5000"
