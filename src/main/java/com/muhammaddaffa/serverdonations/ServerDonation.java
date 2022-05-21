@@ -1,5 +1,6 @@
 package com.muhammaddaffa.serverdonations;
 
+import com.muhammaddaffa.serverdonations.commands.MainCommand;
 import com.muhammaddaffa.serverdonations.configs.ConfigManager;
 import com.muhammaddaffa.serverdonations.configs.ConfigValue;
 import com.muhammaddaffa.serverdonations.database.SQLDatabaseInitializer;
@@ -28,7 +29,7 @@ public class ServerDonation extends JavaPlugin {
         Common.setPrefix("[ServerDonation]");
         // Initialize config and config value
         ConfigManager.init();
-        ConfigValue.init(this.getConfig());
+        ConfigValue.init();
         // Should we enable debug?
         if(ConfigValue.DEBUG){
             Debug.enable();
@@ -55,13 +56,29 @@ public class ServerDonation extends JavaPlugin {
     }
 
     private void registerCommands() {
+        MainCommand command = new MainCommand(this.client, this.productManager, this);
 
+        this.getCommand("donations").setExecutor(command);
+        this.getCommand("donations").setTabCompleter(command);
     }
 
     private void registerListeners() {
         PluginManager pm = Bukkit.getPluginManager();
 
         pm.registerEvents(this.client, this);
+    }
+
+    public void reloadEverything() {
+        ConfigManager.reload();
+        ConfigValue.init();
+
+        if (ConfigValue.DEBUG) {
+            Debug.enable();
+        } else {
+            Debug.disable();
+        }
+
+        this.productManager.load();
     }
 
     private void connectSnapAPI(){
