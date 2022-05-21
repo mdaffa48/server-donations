@@ -15,13 +15,41 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-public record Product(
-        String key,
-        String name,
-        String displayName,
-        int price,
-        List<String> commands
-) {
+public class Product {
+
+    private final String key;
+    private final String name;
+    private final String displayName;
+    private final int price;
+    private final List<String> commands;
+
+    public Product(String key, String name, String displayName, int price, List<String> commands) {
+        this.key = key;
+        this.name = name;
+        this.displayName = displayName;
+        this.price = price;
+        this.commands = commands;
+    }
+
+    public String key() {
+        return key;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public String displayName() {
+        return displayName;
+    }
+
+    public int price() {
+        return price;
+    }
+
+    public List<String> commands() {
+        return commands;
+    }
 
     public void broadcast(Player player) {
         Executor.async(() -> {
@@ -55,7 +83,7 @@ public record Product(
 
                 // Run all commands
                 Executor.sync(() -> {
-                    for (String command : this.commands()) {
+                    for (String command : this.commands) {
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), this.parse(player, command));
                     }
                 });
@@ -70,8 +98,8 @@ public record Product(
     private String parse(Player player, String message) {
         return message
                 .replace("{player}", player.getName())
-                .replace("{product_name}", this.displayName())
-                .replace("{product_price}", Utils.formatNumber(this.price()));
+                .replace("{product_name}", this.displayName)
+                .replace("{product_price}", Utils.formatNumber(this.price));
     }
 
 }
