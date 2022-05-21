@@ -5,9 +5,7 @@ import me.aglerr.mclibs.libs.Common;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ProductManager {
 
@@ -16,6 +14,10 @@ public class ProductManager {
     @Nullable
     public Product getProduct(String key) {
         return this.productMap.get(key);
+    }
+
+    public Set<String> getAllProducts() {
+        return this.productMap.keySet();
     }
 
     public void load() {
