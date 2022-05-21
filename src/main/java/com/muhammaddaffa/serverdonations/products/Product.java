@@ -17,6 +17,7 @@ import java.util.List;
 
 public record Product(
         String key,
+        String name,
         String displayName,
         int price,
         List<String> commands
