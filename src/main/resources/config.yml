@@ -78,3 +78,13 @@ normal-messages:
   - ""
   - "&7(( Bantu server kami agar tetap hidup! ))"
   - "&6&m--------------------------------------------"
+
+messages:
+  no-permission: "&cYou don't have enough permissions."
+  reload: "&aYou have reloaded the configuration"
+  invalid-product: "&cThere is no product with that name"
+  send-donation: "&aYou have send a {product_name} donation for &e{player}"
+  help:
+    - "&e&lServer Donations &7- by aglerr"
+    - "&e/donations reload &7- reload the configuration"
+    - "&e/donations send (player) (product) &7- send donation task in the server"
