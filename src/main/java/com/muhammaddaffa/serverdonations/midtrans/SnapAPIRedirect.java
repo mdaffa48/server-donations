@@ -108,7 +108,7 @@ public class SnapAPIRedirect implements Listener {
 
                 Executor.async(() -> {
                     String query = "SELECT * FROM `" + SQLDatabaseInitializer.TRANSACTION_TABLE + "` " +
-                            "WHERE order_id=?";
+                            "WHERE `order_id`=?;";
 
                     SQLHelper.buildStatement(query, statement -> {
                         statement.setString(1, orderId);
@@ -179,7 +179,7 @@ public class SnapAPIRedirect implements Listener {
 
     private void updateUser(Player player, Product product) {
         String query = "SELECT * FROM `" + SQLDatabaseInitializer.USER_TABLE + "` " +
-                "WHERE `name`=?";
+                "WHERE `name`=?;";
 
         SQLHelper.buildStatement(query, statement -> {
             statement.setString(1, player.getName());
@@ -192,14 +192,14 @@ public class SnapAPIRedirect implements Listener {
             }
 
             String updateQuery = "REPLACE INTO `" + SQLDatabaseInitializer.USER_TABLE + "` " +
-                    "SET `total`=? " +
-                    "WHERE `name`=?;";
+                    "(name, total) " +
+                    "VALUES (?, ?);";
 
             final int finalTotal = total;
 
             SQLHelper.buildStatement(updateQuery, updateStatement -> {
-                updateStatement.setInt(1, finalTotal);
-                updateStatement.setString(2, player.getName());
+                updateStatement.setString(1, player.getName());
+                updateStatement.setInt(2, finalTotal);
 
                 updateStatement.execute();
 
@@ -208,8 +208,7 @@ public class SnapAPIRedirect implements Listener {
                 ex.printStackTrace();
             });
 
-        }, ex -> {
-        });
+        }, ex -> {});
     }
 
     private boolean isStatusGood(String status) {
