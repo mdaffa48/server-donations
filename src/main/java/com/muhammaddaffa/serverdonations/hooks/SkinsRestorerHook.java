@@ -17,7 +17,7 @@ public class SkinsRestorerHook {
 
     }
 
-    public static boolean isSkinsRestorer(){
+    public static boolean isEnabled(){
         return SKINS_RESTORER;
     }
 
