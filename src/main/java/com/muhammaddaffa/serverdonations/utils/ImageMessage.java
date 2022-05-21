@@ -1,6 +1,8 @@
 package com.muhammaddaffa.serverdonations.utils;
 
+import com.muhammaddaffa.serverdonations.configs.ConfigValue;
 import me.aglerr.mclibs.libs.Common;
+import me.aglerr.mclibs.minedown.MineDown;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.util.ChatPaginator;
@@ -190,9 +192,11 @@ public class ImageMessage {
 
     public void sendMessage() {
         Bukkit.getOnlinePlayers().forEach(online -> {
+            Common.sendMessage(online, ConfigValue.AVATAR_HEADER);
             for (String message : this.getLines()) {
                 Common.sendMessage(online, message);
             }
+            Common.sendMessage(online, ConfigValue.AVATAR_FOOTER);
         });
     }
 }
