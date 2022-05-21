@@ -40,9 +40,13 @@ public class ConfigValue {
 
     public static List<String> NORMAL_MESSAGES;
 
+    public static String PAY_BUTTON;
+    public static List<String> PAY_MESSAGES;
+
     public static String NO_PERMISSION;
     public static String RELOAD;
     public static String INVALID_PRODUCT;
+    public static String INVALID_PLAYER;
     public static String SEND_DONATION;
     public static List<String> HELP;
 
@@ -86,9 +90,13 @@ public class ConfigValue {
 
         NORMAL_MESSAGES = config.getStringList("normal-messages");
 
+        PAY_BUTTON = config.getString("invoice-message.pay-button");
+        PAY_MESSAGES = config.getStringList("invoice-message.messages");
+
         NO_PERMISSION = config.getString("messages.no-permission");
         RELOAD = config.getString("messages.reload");
         INVALID_PRODUCT = config.getString("messages.invalid-product");
+        INVALID_PLAYER = config.getString("messages.invalid-player");
         SEND_DONATION = config.getString("messages.send-donation");
         HELP = config.getStringList("messages.help");
     }

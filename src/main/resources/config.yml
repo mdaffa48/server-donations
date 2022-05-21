@@ -79,10 +79,21 @@ normal-messages:
   - "&7(( Bantu server kami agar tetap hidup! ))"
   - "&6&m--------------------------------------------"
 
+invoice-message:
+  pay-button: " &a&l[Click disini untuk bayar]"
+  messages:
+    - "&f"
+    - "&fHallo &e{player}&f, tolong selesaikan pembayaran"
+    - "&7Produk: {product_name}"
+    - "&7Harga: &eRp. {product_price}"
+    - "{pay_button}"
+    - "&f"
+
 messages:
   no-permission: "&cYou don't have enough permissions."
   reload: "&aYou have reloaded the configuration"
   invalid-product: "&cThere is no product with that name"
+  invalid-player: "&cThat player is not online!"
   send-donation: "&aYou have send a {product_name} donation for &e{player}"
   help:
     - "&e&lServer Donations &7- by aglerr"
