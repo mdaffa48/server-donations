@@ -5,4 +5,5 @@ authors: [ aglerr ]
 softdepend: [SkinsRestorer]
 
 commands:
-  invoice:
+  donations:
+    aliases: [ donation ]
