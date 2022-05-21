@@ -50,7 +50,9 @@ public class ConfigValue {
     public static String SEND_DONATION;
     public static List<String> HELP;
 
-    public static void init(FileConfiguration config){
+    public static void init(){
+        FileConfiguration config = ConfigManager.CONFIG.getConfig();
+
         DEBUG = config.getBoolean("debug");
 
         IS_PRODUCTION_MODE = config.getBoolean("midtrans.production-mode");
